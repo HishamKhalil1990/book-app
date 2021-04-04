@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/styles/ reset.css">
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+    <link rel="stylesheet" href="/styles/modules.css">
+    <title>Results</title>
+</head>
+
+<body>
+    <header>
+        <h1>Best Books!</h1>
+        <a href="#">my list</i></a>
+    </header>
+    <h2>
+        Search Results
+    </h2>
+    <main>
+        <div>
+            <% dataArr.forEach( bookInfo => { %>
+                <h2><%= bookInfo.title %></h2>
+                <img src='<%= bookInfo.image%>'' alt="">
+                <p><%= bookInfo.author %></p>
+                <p><%= bookInfo.description %></p>
+            <% }) %>
+        </div>
+    </main>
+</body>
+
+</html>
