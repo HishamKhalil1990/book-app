@@ -6,27 +6,32 @@
     <link rel="stylesheet" href="/styles/base.css">
     <link rel="stylesheet" href="/styles/layout.css">
     <link rel="stylesheet" href="/styles/modules.css">
+    <script src="https://kit.fontawesome.com/3d30a49dec.js" crossorigin="anonymous"></script>
     <title>Results</title>
 </head>
 
 <body>
     <header>
         <h1>Best Books!</h1>
-        <a href="#">my list</i></a>
+        <a href="#"><i class="fas fa-list"></i></a>
     </header>
-    <h2>
-        Search Results
-    </h2>
-    <main>
-        <div>
-            <% dataArr.forEach( bookInfo => { %>
-                <h2><%= bookInfo.title %></h2>
-                <img src='<%= bookInfo.image%>'' alt="">
-                <p><%= bookInfo.author %></p>
-                <p><%= bookInfo.description %></p>
-            <% }) %>
+    <div class="firstDiv">
+        <h2>
+          Search Results
+        </h2>
+    </div>
+    <div id='container'>
+        <% dataArr.forEach( bookInfo => { %>
+        <div class="card">
+            <img src='<%= bookInfo.image%>'' alt="">
+            <h2 class="titleC">Title: <%= bookInfo.title %></h2>
+            <p class="author">Author: <%= bookInfo.author %></p>
+            <p>Description: <%= bookInfo.description %></p>
+            <p>Puplished in: <%= bookInfo.puplish %></p>
+            <p>Price: <%= bookInfo.price %></p>
         </div>
-    </main>
+        <% }) %>
+    </div>
 </body>
 
 </html>

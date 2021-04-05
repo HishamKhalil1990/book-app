@@ -5,29 +5,32 @@
     <link rel="stylesheet" href="/styles/base.css">
     <link rel="stylesheet" href="/styles/layout.css">
     <link rel="stylesheet" href="/styles/modules.css">
+    <script src="https://kit.fontawesome.com/3d30a49dec.js" crossorigin="anonymous"></script>
     <title>Book app</title>
   </head>
   <body>
     <header>
       <h1>Best Books!</h1>
-      <a href="#">my list</i></a>
+      <a href="#"><i class="fas fa-list"></i></a>
     </header>
-    <h2>
-      Search by Title or Author
-    </h2>
+    <div class="firstDiv">
+      <h2>
+        Search by Title or Author
+      </h2>
+    </div>
     <main>
-      <form action="/searchs" method="POST">
-        <input type="text" name="search" placeholder="Enter a Title or Author" required><br>
-        <fieldset>
+      <form action="/searchs" method="POST" id="myForm">
+        <input type="text" name="search" placeholder="Enter a Title or Author" required>
+        <fieldset class="radioC">
           <label for="title">
             <span>Title</span>
-            <input type="radio" name="search" value="title" required>
+            <input  type="radio" name="search" value="title" required >
           </label>
         </fieldset>
-        <fieldset>
+        <fieldset class="radioC">
           <label for="author">
             <span>Author</span>
-            <input type="radio" name="search" value="author" required>
+            <input  type="radio" name="search" value="author" required >
           </label>
         </fieldset>
         <button type="submit" value="submit">Search the Google Books API</button>
