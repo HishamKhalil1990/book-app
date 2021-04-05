@@ -19,36 +19,40 @@ app.listen(PORT, () => {
     console.log('we are listening to port 3001')
 })
 // app middleware
-app.get('/', getHomePage);
+app.get('/', getNewPage);
 app.post('/searchs', searchPage);
-function getHomePage(request, response) {
-    response.render('pages/index');
+function getNewPage(request, response) {
+    response.render('pages/searches/new');
 }
 function searchPage(request, response) {
     const bookSubject = request.body.search[0];
-    let url = `https://www.googleapis.com/books/v1/volumes?q=${bookSubject}+`
-    if (request.body.search[0] === 'title') {
-        url += `in${request.body.search[1]}:`
-    } else {
-        url += `in${request.body.search[1]}:`
-    }
-    superagent.get(url).then(data => {
-        let dataArr = [];
-        try {
-            dataArr = data.body.items.map(bookObj => new Book(bookObj))
-        } catch (error) {
+    try {
+        let url = `https://www.googleapis.com/books/v1/volumes?q=${bookSubject}+`
+        if (request.body.search[0] === 'title') {
+            url += `in${request.body.search[1]}:`
+        } else {
+            url += `in${request.body.search[1]}:`
         }
-        response.render('pages/searches/show', { dataArr: dataArr });
-    })
+        superagent.get(url).then(data => {
+            let dataArr = [];
+            try {
+                dataArr = data.body.items.map(bookObj => new Book(bookObj))
+            } catch (error) {
+            }
+            response.render('pages/searches/show', { dataArr: dataArr });
+        })
+    }catch(error){
+        response.render('pages/error')
+    }
     // response.render('pages/searches/show')
 }
 function Book(bookObj) {
     this.title = exist(1, bookObj),
-    this.author = exist(2, bookObj),
-    this.image = exist(3, bookObj),
-    this.description = exist(4, bookObj),
-    this.puplish = exist(5, bookObj),
-    this.price = exist(6, bookObj)
+        this.author = exist(2, bookObj),
+        this.image = exist(3, bookObj),
+        this.description = exist(4, bookObj),
+        this.puplish = exist(5, bookObj),
+        this.price = exist(6, bookObj)
 }
 
 function exist(index, val) {
