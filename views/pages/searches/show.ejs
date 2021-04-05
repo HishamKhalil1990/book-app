@@ -25,10 +25,16 @@
         <div class="card">
             <img src='<%= bookInfo.image%>'' alt="">
             <h2 class="titleC">Title: <%= bookInfo.title %></h2>
-            <p class="author">Author: <%= bookInfo.author %></p>
-            <p>Description: <%= bookInfo.description %></p>
-            <p>Puplished in: <%= bookInfo.puplish %></p>
-            <p>Price: <%= bookInfo.price %></p>
+            <p style="text-align: center;" class="author">Author: <%= bookInfo.author %></p>
+            <form class="bookForm" action="/" method="POST">
+                <input class="inp" type="hidden" name="search" value="<%= bookInfo.image%>">
+                <input class="inp" type="hidden" name="search" value="<%= bookInfo.title %>">
+                <input class="inp" type="hidden" name="search" value="<%= bookInfo.author %>">
+                <input class="inp" type="hidden" name="search" value="<%= bookInfo.description %>">
+                <input class="inp" type="hidden" name="search" value="<%= bookInfo.isbn %>">
+                <input class="inp" type="hidden" name="search" value="<%= bookInfo.bookshelf %>">
+                <button class="inp">Select This Book</button>
+            </form>
         </div>
         <% }) %>
     </div>
