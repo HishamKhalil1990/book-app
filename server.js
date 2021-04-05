@@ -18,31 +18,46 @@ app.use(express.static('public')); // for preparing the css files and casting th
 // creating the ejs engine
 app.set('view engine', 'ejs'); // set engine to run the ejs files
 // creating psql client
-const options = NODE_ENV === 'production' ? { connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } } : { connectionString: DATABASE_URL};
-const client = new pg.Client(options);
+const options = NODE_ENV === 'production' ? { connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } } : { connectionString: DATABASE_URL };
+const client = new pg.Client(process.env.DATABASE_URL);
 // check client connection
-client.on('error',error =>{throw error;})
-client.connect().then( () => {
+client.on('error', error => { throw error; })
+client.connect().then(() => {
     // listen to the port
     app.listen(PORT, () => {
         console.log('we are listening to port 3001')
     })
-}).catch(error=>{
+}).catch(error => {
     console.log("client connction faild");
 })
 // app middleware
-app.post('/',getHomePage)
+app.post('/', getHomePage)
 app.get('/new', getNewPage);
 app.post('/searchs', searchPage);
-function getHomePage(request,response){
+app.post('/details',getDetails);
+function getHomePage(request, response) {
     console.log(request.body)
-    response.render('pages/index')
+    const title = request.body.title;
+    const getBookData = 'SELECT * FROM booksTable WHERE title = $1';
+    client.query(getBookData, [title]).then(data => {
+        if (data.rowCount == 0) {
+            console.log('new book');
+            const addSql = 'INSERT INTO locationTable (img,title,author,descrip,isbn,bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+            const bookInfo = [request.body.image, title, request.body.author, request.body.description, request.body.isbn, request.body.bookshelf];
+            client.query(addSql, bookInfo).then(data => {
+                console.log('saved')
+            })
+        } 
+    });
+    const getAllBookData = 'SELECT * FROM booksTable';
+    client.query(getAllBookData).then(data => {
+        response.render('pages/index',{data:data.rows})
+    });
 }
 function getNewPage(request, response) {
     response.render('pages/searches/new');
 }
 function searchPage(request, response) {
-    console.log(request.body)
     const bookSubject = request.body.search[0];
     try {
         let url = `https://www.googleapis.com/books/v1/volumes?q=${bookSubject}+`
@@ -59,17 +74,20 @@ function searchPage(request, response) {
             }
             response.render('pages/searches/show', { dataArr: dataArr });
         })
-    }catch(error){
+    } catch (error) {
         response.render('pages/error')
     }
 }
+function getDetails(request,response){
+    
+}
 function Book(bookObj) {
     this.image = exist(3, bookObj),
-    this.title = exist(1, bookObj),
-    this.author = exist(2, bookObj),
-    this.description = exist(4, bookObj),
-    this.isbn = exist(5, bookObj),
-    this.bookshelf = exist(6, bookObj)
+        this.title = exist(1, bookObj),
+        this.author = exist(2, bookObj),
+        this.description = exist(4, bookObj),
+        this.isbn = exist(5, bookObj),
+        this.bookshelf = exist(6, bookObj)
 }
 
 function exist(index, val) {
@@ -119,7 +137,7 @@ function exist(index, val) {
                 vari = defu;
             }
             break;
-        }
+    }
     return vari;
 }
 

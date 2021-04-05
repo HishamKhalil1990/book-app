@@ -23,14 +23,18 @@
         <input type="text" name="search" placeholder="Enter a Title or Author" required>
         <fieldset class="radioC">
           <label for="title">
-            <span>Title</span>
-            <input  type="radio" name="search" value="title" required >
+            <span>
+              <p class="boxTitle">Title</p>
+              <input  type="radio" name="search" value="title" required id="title">
+            </span> 
           </label>
         </fieldset>
         <fieldset class="radioC">
           <label for="author">
-            <span>Author</span>
-            <input  type="radio" name="search" value="author" required >
+            <span>
+              <p class="boxTitle">Author</p>
+              <input  type="radio" name="search" value="author" required id="author">
+            </span>
           </label>
         </fieldset>
         <button type="submit" value="submit">Search the Google Books API</button>

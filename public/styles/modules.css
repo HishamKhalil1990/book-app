@@ -8,7 +8,6 @@ a{
 input{
     text-align: start;
     font-size: 30px;
-    width: 100%;
 }
 button,label{
     font-size: 30px;
@@ -49,6 +48,15 @@ button{
     display: flex;
     justify-content: center;
     align-content: center;
+}
+
+span{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+#title,#author{
+    margin-top: 12px;
 }
 
 ::-webkit-scrollbar {
