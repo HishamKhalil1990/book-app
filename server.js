@@ -43,20 +43,12 @@ function searchPage(request, response) {
     // response.render('pages/searches/show')
 }
 function Book(bookObj) {
-    // this.title = bookObj.volumeInfo.title,
-    // this.author = bookObj.volumeInfo.authors || 'no info availble',
-    // this.image = bookObj.volumeInfo.imageLinks.thumbnail || 'https://i.imgur.com/J5LVHEL.jpg',
-    // this.description = bookObj.volumeInfo.description || 'no info availble',
-    // this.puplish = 'puplished in ' + bookObj.volumeInfo.publishedDate || 'no info availble',
-    // this.price = bookObj.listPrice.amount + 'USD' || 'no info availble'
-
-
     this.title = exist(1, bookObj),
-        this.author = exist(2, bookObj),
-        this.image = exist(3, bookObj),
-        this.description = exist(4, bookObj),
-        this.puplish = exist(5, bookObj),
-        this.price = exist(6, bookObj)
+    this.author = exist(2, bookObj),
+    this.image = exist(3, bookObj),
+    this.description = exist(4, bookObj),
+    this.puplish = exist(5, bookObj),
+    this.price = exist(6, bookObj)
 }
 
 function exist(index, val) {
