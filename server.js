@@ -1,7 +1,7 @@
 'use strict'
 // environment setup
 require('dotenv').config();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const DATABASE_URL = process.env.DATABASE_URL
 const NODE_ENV = process.env.NODE_ENV;
 // requiering libraries
@@ -25,33 +25,47 @@ client.on('error', error => { throw error; })
 client.connect().then(() => {
     // listen to the port
     app.listen(PORT, () => {
-        console.log('we are listening to port 3001')
+        console.log('we are listening to port 3000')
     })
 }).catch(error => {
     console.log("client connction faild");
 })
 // app middleware
-app.post('/', getHomePage)
+// app.post('/', getHomePage)
 app.get('/new', getNewPage);
 app.post('/searchs', searchPage);
-app.post('/details',getDetails);
-function getHomePage(request, response) {
-    console.log(request.body)
-    const title = request.body.title;
-    const getBookData = 'SELECT * FROM booksTable WHERE title = $1';
-    client.query(getBookData, [title]).then(data => {
-        if (data.rowCount == 0) {
-            console.log('new book');
-            const addSql = 'INSERT INTO locationTable (img,title,author,descrip,isbn,bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-            const bookInfo = [request.body.image, title, request.body.author, request.body.description, request.body.isbn, request.body.bookshelf];
-            client.query(addSql, bookInfo).then(data => {
-                console.log('saved')
-            })
-        } 
+app.post('/books', saveBook);
+app.get('/books/:id',showBookDetail)
+// app.post('/books/:id',showDetails);
+function showBookDetail(request,response){
+    const bookId = request.params.id;
+    let bookInfo = {};
+    const getBookDataSql = 'SELECT * FROM bookstable WHERE id = $1';
+    client.query(getBookDataSql, [bookId]).then(data => {
+        console.log(data)
+        bookInfo.id = data.rows[0].id;
+        bookInfo.image = data.rows[0].img;
+        bookInfo.title = data.rows[0].title;
+        bookInfo.author = data.rows[0].author;
+        bookInfo.description = data.rows[0].descrip;
+        bookInfo.isbn = data.rows[0].isbn;
+        bookInfo.bookshelf = data.rows[0].bookshelf;
+        response.render('pages/books/detail',{bookInfo});
     });
-    const getAllBookData = 'SELECT * FROM booksTable';
-    client.query(getAllBookData).then(data => {
-        response.render('pages/index',{data:data.rows})
+}
+function saveBook(request, response) {
+    const title = request.body.title;
+    const getBookDataSql = 'SELECT * FROM bookstable WHERE title = $1';
+    client.query(getBookDataSql,[title]).then(data => {
+        if (data.rowCount == 0) {
+            const addBookSql = 'INSERT INTO bookstable (img,title,author,descrip,isbn,bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+            const bookInfoToAdd = [request.body.image, title, request.body.author, request.body.description, request.body.isbn, request.body.bookshelf];
+            client.query(addBookSql, bookInfoToAdd)
+        }
+    });
+    client.query(getBookDataSql,[title]).then(data => {
+        const id = data.rows[0].id
+        response.redirect(`/books/${id}`)
     });
 }
 function getNewPage(request, response) {
@@ -77,9 +91,6 @@ function searchPage(request, response) {
     } catch (error) {
         response.render('pages/error')
     }
-}
-function getDetails(request,response){
-    
 }
 function Book(bookObj) {
     this.image = exist(3, bookObj),

@@ -7,27 +7,45 @@
     <link rel="stylesheet" href="/styles/layout.css">
     <link rel="stylesheet" href="/styles/modules.css">
     <script src="https://kit.fontawesome.com/3d30a49dec.js" crossorigin="anonymous"></script>
-    <%- include('../layout/head',{head:'Details'})%>
+    <title>Results</title>
 </head>
 
 <body>
-    <%- include('../layout/header',{pageName:'Details',""}) %>
-        <div id='container'>
-            <div class="card">
-                <img src="" alt="">
-                <div>
-
-                </div>
-                <form class="bookForm" action="/details">
-                    <input class="inp" type="hidden" value="">
-                    <input class="inp" type="hidden" value="">
-                    <input class="inp" type="hidden" value="">
-                    <input class="inp" type="hidden" value="">
-                    <input class="inp" type="hidden" value="">
-                    <input class="inp" type="hidden" value="">
-                    <button class="inp">view Details</button>
-                </form>
+    <header>
+        <h1>Best Books!</h1>
+        <a href="#"><i class="fas fa-bars"></i></a>
+    </header>
+    <div class="firstDiv">
+        <h2>
+          Search Results
+        </h2>
+    </div>
+    <div id='container'>
+        <div class="card">
+            <img src='<%= bookInfo.image%>' alt="">
+            <div>
+                <h2 class="titleC">
+                    Title: <%= bookInfo.title %>
+                </h2>
+                <p style="text-align: center;" class="author">
+                    Author: <%= bookInfo.author %>
+                </p>
             </div>
+            <div>
+                <p>
+                    Description: <%= bookInfo.description %>
+                </p>
+            </div>
+            <div>
+                <p>
+                    ISBN: <%= bookInfo.isbn %>
+                </p>
+                <p>
+                    Bookshelf: <%= bookInfo.bookshelf %>
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
