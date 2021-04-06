@@ -51,7 +51,7 @@ main{
     overflow: hidden;
 }
 .card{
-    height: 500px;
+    height: 575px;
     width:400px;
     border: solid black 1px;
     margin-left: 20px;
@@ -64,13 +64,64 @@ main{
     background-color:#c8ccd1;;
 }
 img{
-    margin:auto;
+    margin: auto;
     width: 70%;
-    height: 60%;
+    height: 55%;
     justify-self: center;
-    border:solid black 1px;
-    margin-top: 20px;
+    border: solid black 1px;
+    margin-top: 30px;
 }
 .boxTitle{
     width: 50%;
+}
+.titleDiv{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin-top: 20px;
+    width: 85%;
+    align-self: center;
+    margin-bottom: 20px;
+}
+
+.detailImg{
+    margin: auto;
+    width: 40%;
+    height: 30%;
+    justify-self: center;
+    border: solid black 1px;
+    margin-top: 30px;
+    margin-bottom: 0;
+}
+.paraDiv{
+    height: 200px;
+    width: 70%;
+    overflow: auto;
+    background-color: #f1f1f1;
+    align-self: center;
+}
+
+.detailCard{
+    height: 700px;
+    width:400px;
+    border: solid black 1px;
+    margin-left: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color:#c8ccd1;;
+}
+
+.isbnDiv{
+    width: fit-content;
+    align-self: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+button{
+    border-radius: 20px;
 }

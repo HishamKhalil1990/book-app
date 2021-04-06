@@ -7,27 +7,38 @@
   <link rel="stylesheet" href="/styles/layout.css">
   <link rel="stylesheet" href="/styles/modules.css">
   <script src="https://kit.fontawesome.com/3d30a49dec.js" crossorigin="anonymous"></script>
-  <%- include('../layout/head',{head:'Saved'})%>
+  <title>home</title>
 </head>
 
 <body>
-  <%- include('../layout/header',{pageName:'Saved',items:3}) %>
-    <div id='container'>
-      <div class="card">
-        <img src="" alt="">
-        <div>
-
+  <header>
+    <h1>Best Books!</h1>
+    <a href="#"><i class="fas fa-bars"></i></a>
+  </header>
+  <div class="firstDiv">
+    <span class="homeSpan">
+      <p style="font-size: 20px;color: black;">
+        <%= dataArr.length %>
+      </p>
+    </span>
+    <h2 style="margin-top: 23px;font-size: 30px;">
+      Saved
+    </h2>
+  </div>
+  <div id='container'>
+    <% dataArr.forEach( bookInfo => { %>
+    <div class="card">
+        <img src='<%= bookInfo.image%>'' alt="">
+        <div class="titleDiv">
+            <h2 class="titleC">Title: <%= bookInfo.title %></h2>
+            <p style="text-align: center;" class="author">Author: <%= bookInfo.author %></p>
         </div>
-        <form class="bookForm" action="">
-          <input class="inp" type="hidden" value="">
-          <input class="inp" type="hidden" value="">
-          <input class="inp" type="hidden" value="">
-          <input class="inp" type="hidden" value="">
-          <input class="inp" type="hidden" value="">
-          <input class="inp" type="hidden" value="">
-          <button class="inp">view Details</button>
+        <form class="bookForm" action="/books/<%= bookInfo.id %>" method="GET">
+            <button class="inp">View Details</button>
         </form>
-      </div>
+    </div>
+    <% }) %>
+</div>
 </body>
 
 </html>

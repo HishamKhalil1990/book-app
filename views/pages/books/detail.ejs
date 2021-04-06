@@ -15,15 +15,10 @@
         <h1>Best Books!</h1>
         <a href="#"><i class="fas fa-bars"></i></a>
     </header>
-    <div class="firstDiv">
-        <h2>
-          Search Results
-        </h2>
-    </div>
     <div id='container'>
-        <div class="card">
-            <img src='<%= bookInfo.image%>' alt="">
-            <div>
+        <div class="detailCard">
+            <img class="detailImg" src='<%= bookInfo.image%>' alt="">
+            <div class="titleDiv">
                 <h2 class="titleC">
                     Title: <%= bookInfo.title %>
                 </h2>
@@ -31,18 +26,32 @@
                     Author: <%= bookInfo.author %>
                 </p>
             </div>
-            <div>
+            <div class="paraDiv">
                 <p>
-                    Description: <%= bookInfo.description %>
+                    Description:<br> <%= bookInfo.description %>
                 </p>
             </div>
-            <div>
+            <div class="isbnDiv">
                 <p>
                     ISBN: <%= bookInfo.isbn %>
                 </p>
                 <p>
                     Bookshelf: <%= bookInfo.bookshelf %>
                 </p>
+            </div>
+            <div class="formsDiv">
+                <form class="detailForm" action="/books" method="POST">
+                    <input class="inp" type="hidden" name="image" value="<%= bookInfo.image%>">
+                    <input class="inp" type="hidden" name="title" value="<%= bookInfo.title %>">
+                    <input class="inp" type="hidden" name="author" value="<%= bookInfo.author %>">
+                    <input class="inp" type="hidden" name="description" value="<%= bookInfo.description %>">
+                    <input class="inp" type="hidden" name="isbn" value="<%= bookInfo.isbn %>">
+                    <input class="inp" type="hidden" name="bookshelf" value="<%= bookInfo.bookshelf %>">
+                    <button class="detButton">Update details</button>
+                </form>
+                <form class="detailForm" action="/books" method="POST">
+                    <button class="detButton">Delete Book</button>
+                </form>
             </div>
         </div>
     </div>

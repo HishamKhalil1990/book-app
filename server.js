@@ -31,18 +31,34 @@ client.connect().then(() => {
     console.log("client connction faild");
 })
 // app middleware
-// app.post('/', getHomePage)
+app.get('/', getHomePage)
 app.get('/new', getNewPage);
 app.post('/searchs', searchPage);
 app.post('/books', saveBook);
-app.get('/books/:id',showBookDetail)
+app.get('/books/:id', showBookDetail)
 // app.post('/books/:id',showDetails);
-function showBookDetail(request,response){
+function getHomePage(request, response) {
+    const getBookDataSql = 'SELECT * FROM bookstable';
+    client.query(getBookDataSql).then(data => {
+        const dataArr = data.rows.map(book => {
+            let bookInfo = {}
+            bookInfo.id = book.id;
+            bookInfo.image = book.img;
+            bookInfo.title = book.title;
+            bookInfo.author = book.author;
+            bookInfo.description = book.descrip;
+            bookInfo.isbn = book.isbn;
+            bookInfo.bookshelf = book.bookshelf;
+            return bookInfo;
+        })
+        response.render('pages/index',{dataArr})
+    });
+}
+function showBookDetail(request, response) {
     const bookId = request.params.id;
     let bookInfo = {};
     const getBookDataSql = 'SELECT * FROM bookstable WHERE id = $1';
     client.query(getBookDataSql, [bookId]).then(data => {
-        console.log(data)
         bookInfo.id = data.rows[0].id;
         bookInfo.image = data.rows[0].img;
         bookInfo.title = data.rows[0].title;
@@ -50,22 +66,22 @@ function showBookDetail(request,response){
         bookInfo.description = data.rows[0].descrip;
         bookInfo.isbn = data.rows[0].isbn;
         bookInfo.bookshelf = data.rows[0].bookshelf;
-        response.render('pages/books/detail',{bookInfo});
+        response.render('pages/books/detail', { bookInfo });
     });
 }
 function saveBook(request, response) {
     const title = request.body.title;
     const getBookDataSql = 'SELECT * FROM bookstable WHERE title = $1';
-    client.query(getBookDataSql,[title]).then(data => {
+    client.query(getBookDataSql, [title]).then(data => {
         if (data.rowCount == 0) {
             const addBookSql = 'INSERT INTO bookstable (img,title,author,descrip,isbn,bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
             const bookInfoToAdd = [request.body.image, title, request.body.author, request.body.description, request.body.isbn, request.body.bookshelf];
-            client.query(addBookSql, bookInfoToAdd)
+            client.query(addBookSql, bookInfoToAdd).then(data => { })
         }
-    });
-    client.query(getBookDataSql,[title]).then(data => {
-        const id = data.rows[0].id
-        response.redirect(`/books/${id}`)
+        client.query(getBookDataSql, [title]).then(data => {
+            const id = data.rows[0].id
+            response.redirect(`/books/${id}`)
+        });
     });
 }
 function getNewPage(request, response) {

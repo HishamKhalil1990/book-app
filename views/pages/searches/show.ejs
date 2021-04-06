@@ -24,8 +24,10 @@
         <% dataArr.forEach( bookInfo => { %>
         <div class="card">
             <img src='<%= bookInfo.image%>'' alt="">
-            <h2 class="titleC">Title: <%= bookInfo.title %></h2>
-            <p style="text-align: center;" class="author">Author: <%= bookInfo.author %></p>
+            <div class="titleDiv">
+                <h2 class="titleC">Title: <%= bookInfo.title %></h2>
+                <p style="text-align: center;" class="author">Author: <%= bookInfo.author %></p>
+            </div>
             <form class="bookForm" action="/books" method="POST">
                 <input class="inp" type="hidden" name="image" value="<%= bookInfo.image%>">
                 <input class="inp" type="hidden" name="title" value="<%= bookInfo.title %>">
