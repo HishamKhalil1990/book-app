@@ -79,6 +79,22 @@ span{
     justify-content: center;
 }
 
+.labelText{
+    width: fit-content;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    margin-right: 10px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.updateSubmit{
+    width: 25%;
+    margin-top: 15px;
+    align-self: flex-end;
+}
+
 ::-webkit-scrollbar {
     width: 15px;
   } 

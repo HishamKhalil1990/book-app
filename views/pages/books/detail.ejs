@@ -28,7 +28,8 @@
             </div>
             <div class="paraDiv">
                 <p>
-                    Description:<br> <%= bookInfo.description %>
+                    Description:<br>
+                    <%= bookInfo.description %>
                 </p>
             </div>
             <div class="isbnDiv">
@@ -40,7 +41,8 @@
                 </p>
             </div>
             <div class="formsDiv">
-                <form class="detailForm" action="/books" method="POST">
+                <form class="detailForm" action="/update" method="POST">
+                    <input class="inp" type="hidden" name="id" value="<%= bookInfo.id %>">
                     <input class="inp" type="hidden" name="image" value="<%= bookInfo.image%>">
                     <input class="inp" type="hidden" name="title" value="<%= bookInfo.title %>">
                     <input class="inp" type="hidden" name="author" value="<%= bookInfo.author %>">
@@ -49,7 +51,7 @@
                     <input class="inp" type="hidden" name="bookshelf" value="<%= bookInfo.bookshelf %>">
                     <button class="detButton">Update details</button>
                 </form>
-                <form class="detailForm" action="/books" method="POST">
+                <form class="detailForm" action="/delete/<%= bookInfo.id %>?_method=Delete" method="POST">
                     <button class="detButton">Delete Book</button>
                 </form>
             </div>
