@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/styles/ reset.css">
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+    <link rel="stylesheet" href="/styles/modules.css">
+    <script src="https://kit.fontawesome.com/3d30a49dec.js" crossorigin="anonymous"></script>
+    <title>Update</title>
+</head>
+
+<body>
+    <header>
+        <h1>Best Books!</h1>
+        <a href="#"><i class="fas fa-bars"></i></a>
+    </header>
+    <div id='container'>
+        <div class="updateCard">
+            <form class="updateForm" action="/updated?_method=PUT" method="POST">
+                <input class="inp" type="hidden" name="id" value="<%= bookInfo.id %>">
+                <label class="label" for="title">
+                    <p class="labelText">Title</p>
+                    <input type="text" class="inpu2" name="title" placeholder="<%= bookInfo.title %>">
+                </label>
+                <label class="label" for="author">
+                    <p class="labelText">author</p>
+                    <input type="text" class="inpu2" name="author" placeholder="<%= bookInfo.author %>">
+                </label>
+                <label class="label" for="isbn">
+                    <p class="labelText">ISBN</p>
+                    <input type="text" class="inpu2" name="isbn" placeholder="<%= bookInfo.isbn %>">
+                </label>
+                <label class="label" for="image">
+                    <p class="labelText">Image</p>
+                    <input type="text" class="inpu2" name="image" placeholder="<%= bookInfo.image%>">
+                </label>
+                <label class="label" for="description">
+                    <p style="height: fit-content;" class="labelText">description</p>
+                    <input style="height: 300px;" type="text" class="inpu2" name="description" placeholder="<%= bookInfo.description %>">
+                </label>
+                <label class="label" for="bookshelf">
+                    <p class="labelText">bookshelf</p>
+                    <input type="text" class="inpu2" name="bookshelf" placeholder="<%= bookInfo.bookshelf %>">
+                </label>
+                <button class="updateSubmit">Update</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

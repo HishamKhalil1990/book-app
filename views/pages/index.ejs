@@ -33,7 +33,7 @@
             <h2 class="titleC">Title: <%= bookInfo.title %></h2>
             <p style="text-align: center;" class="author">Author: <%= bookInfo.author %></p>
         </div>
-        <form class="bookForm" action="/books/<%= bookInfo.id %>" method="GET">
+        <form class="bookForm" action="/redirect/<%= bookInfo.id %>" method="POST">
             <button class="inp">View Details</button>
         </form>
     </div>

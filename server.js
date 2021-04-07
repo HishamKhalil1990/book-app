@@ -9,12 +9,14 @@ const express = require('express');
 const superagent = require('superagent');
 const cors = require('cors');
 const pg = require('pg');
+const methodOverride = require('method-override');
 // creating the app
 const app = express();
 // setup app
 app.use(cors());
 app.use(express.urlencoded({ extended: true })); //for passing the form data for the POST method => data in request.body
 app.use(express.static('public')); // for preparing the css files and casting the html file with it
+app.use(methodOverride('_method')); // to override the http method
 // creating the ejs engine
 app.set('view engine', 'ejs'); // set engine to run the ejs files
 // creating psql client
@@ -35,8 +37,48 @@ app.get('/', getHomePage)
 app.get('/new', getNewPage);
 app.post('/searchs', searchPage);
 app.post('/books', saveBook);
-app.get('/books/:id', showBookDetail)
+app.post('/update', updateBook);
+app.get('/books/:id', showBookDetail); 
+app.put('/updated',saveUpdate);
+app.delete('/delete/:id',deleteBook);
+app.post('/redirect/:id', redir)
 // app.post('/books/:id',showDetails);
+function deleteBook(request,response){
+    const id = request.params.id;
+    const deleteSql = 'DELETE FROM bookstable WHERE id = $1'
+    client.query(deleteSql,[id]).then(data=>{
+        response.redirect('/');
+    });
+}
+function saveUpdate(request,response){
+    const id = request.body.id;
+    const image = request.body.image;
+    const title = request.body.title;
+    const author = request.body.author;
+    const description = request.body.description;
+    const isbn = request.body.isbn;
+    const bookshelf = request.body.bookshelf;
+    const updateSql = 'UPDATE bookstable SET img=$1, title=$2, author=$3, descrip=$4, isbn=$5, bookshelf=$6 WHERE id = $7';
+    const dataValues = [image,title,author,description,isbn,bookshelf,id];
+    client.query(updateSql,dataValues).then(data=>{
+        response.redirect(`/books/${id}`)
+    })
+}
+function updateBook(request, response) {
+    let bookInfo = {}
+    bookInfo.id = request.body.id;
+    bookInfo.image = request.body.image;
+    bookInfo.title = request.body.title;
+    bookInfo.author = request.body.author;
+    bookInfo.description = request.body.description;
+    bookInfo.isbn = request.body.isbn;
+    bookInfo.bookshelf = request.body.bookshelf;
+    response.render('pages/books/show',{bookInfo})
+}
+function redir(request, response) {
+    const id = request.params.id;
+    response.redirect(`/books/${id}`)
+}
 function getHomePage(request, response) {
     const getBookDataSql = 'SELECT * FROM bookstable';
     client.query(getBookDataSql).then(data => {
@@ -51,7 +93,7 @@ function getHomePage(request, response) {
             bookInfo.bookshelf = book.bookshelf;
             return bookInfo;
         })
-        response.render('pages/index',{dataArr})
+        response.render('pages/index', { dataArr })
     });
 }
 function showBookDetail(request, response) {
